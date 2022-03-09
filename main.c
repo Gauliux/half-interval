@@ -7,71 +7,48 @@ float function(float x)
 	return (float) (pow(x, 3) - 12 * x + 10);
 }
 
-char lower_or_greater(float x)
-{
-	return 0*(function(x) > 0) + 1*(function(x) < 0);
-}
-
 float simple_round(float x, int e)
 {
 	return round(x*pow(10, e))/pow(10, e);
 }
 
-int howm(float e)
+char direction(float a, float b)
 {
-
-	int count;
-	float var = e;
-
-	for(count = 1; var != (float)1; count++)
-	{
-		var=simple_round(var, 2)+e;
-		printf("%f\n", var);	
-	}
-
-	return count;
+	return 0*(function(a) < 0) + 1*(function(b) < 0);
 }
 
-int main()
+char lower_or_greater(float x)
+{
+	return 0*(function(x) > 0) + 1*(function(x) < 0);
+}
+
+int main(int argc, char *argv[])
 {
 
 	float range[2];
-	int E;
 	float result;
+	//float E;
+	//int E;
 
-	char str[100];
+	range[0] = atoi(argv[1]);
+	range[1] = atoi(argv[2]);
 
-	printf("MIN: ");	
-	gets(str);
-
-	range[0] = atoi(str);
-
-	printf("MAX: ");	
-	gets(str);
-
-	range[1] = atoi(str);
-
-	printf("E: ");
-	gets(str);
-
-	E = atoi(str);
-
-
-	//round(range[0]*100)/100 != round(range[1]*100)/100
+	direction(range[0], range[1]);
 
 	int i;
-	for (i = 1; simple_round(range[0], E) < simple_round(range[1], E); ++i)
+	for (i = 1; fabs(range[1]-range[0]) > 0.0001; ++i)
 	{
 		result = (float)((range[0]+range[1])/2);
-		range[lower_or_greater(result)] = result;
-		//printf("X%d = %.*f\n", i, E, result);
-		//printf("X in [%f ; %f]\n", simple_round(range[0], E), simple_round(range[1], E));
+		range[(direction(range[0], range[1])) ? lower_or_greater(result) : !lower_or_greater(result)] = result;
+
+		printf("X%d = %f\n", i, result);
+		printf("F(x) = %f\n", function(result));
+		printf("X in [%f ; %f]\n", range[0], range[1]);
 		printf("\n");
 	}
 
-	printf("%d\n", i);
-	printf("X%d = %.f\n", i, result);
-	printf("X in [%f ; %f]\n", simple_round(range[0], E), simple_round(range[1], E));
+	printf("Steps: %d\n", i);
+	printf("X%d = %f\n", i, result = (float)((range[0]+range[1])/2));
 
 	//printf("%f\n", simple_round(2.3492, 3));
 	//printf("%d\n", howm(E));
@@ -79,7 +56,6 @@ int main()
 	//int test = (*(int*)&E)-0x1A0C49B-0x1A0C49B;
 	//printf("%d\n", test);
 	//printf("%f\n", *(float*)&test);
-	
-	
+
 	return 0;
 }
