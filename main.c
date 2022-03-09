@@ -26,29 +26,28 @@ int main(int argc, char *argv[])
 {
 
 	float range[2];
-	float result;
-	//float E;
-	//int E;
+	float E;
 
 	range[0] = atoi(argv[1]);
 	range[1] = atoi(argv[2]);
+	E = atof(argv[3]);
 
-	direction(range[0], range[1]);
+	float result;
+	int counter;
 
-	int i;
-	for (i = 1; fabs(range[1]-range[0]) > 0.0001; ++i)
+	for (counter = 1; fabs(range[1]-range[0]) > E; ++counter)
 	{
 		result = (float)((range[0]+range[1])/2);
 		range[(direction(range[0], range[1])) ? lower_or_greater(result) : !lower_or_greater(result)] = result;
 
-		printf("X%d = %f\n", i, result);
+		printf("X%d = %f\n", counter, result);
 		printf("F(x) = %f\n", function(result));
 		printf("X in [%f ; %f]\n", range[0], range[1]);
 		printf("\n");
 	}
 
-	printf("Steps: %d\n", i);
-	printf("X%d = %f\n", i, result = (float)((range[0]+range[1])/2));
+	printf("Steps: %d\n", counter);
+	printf("X%d = %.2f\n", counter, result = (float)((range[0]+range[1])/2));
 
 	//printf("%f\n", simple_round(2.3492, 3));
 	//printf("%d\n", howm(E));
